@@ -12,7 +12,7 @@ import com.bridgeLabz.RedisTemplateProject.model.User;
 public class RedisConfiguration {
 
 	@Bean
-	JedisConnectionFactory jedisConnectionFactory() {
+	public JedisConnectionFactory jedisConnectionFactory() {
 		JedisConnectionFactory connectionFactory = new JedisConnectionFactory();
 		connectionFactory.setPort(6379);
 		connectionFactory.setHostName("localhost");
@@ -31,7 +31,16 @@ public class RedisConfiguration {
 		StringRedisTemplate redisTemplate = new StringRedisTemplate();
 		redisTemplate.setConnectionFactory(jedisConnectionFactory());
 		return redisTemplate;
-
 	}
+	
+	/*@Bean
+	public JedisCluster jedisCluster() {
+		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
+		jedisClusterNodes.add(new HostAndPort("localhost", 10000));
+		JedisClusterConnection jedisClusterConnection = (JedisClusterConnection) jedisConnectionFactory().getClusterConnection();
+		JedisCluster jedisCluster = jedisClusterConnection.getNativeConnection();
+		JedisCluster jedisCluster = new JedisCluster(jedisClusterNodes);
+		return jedisCluster;
+	}*/
 
 }

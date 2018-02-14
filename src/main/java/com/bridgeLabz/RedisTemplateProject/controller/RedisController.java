@@ -1,6 +1,6 @@
-package com.bridgeLabz.RedisTemplateProject.contreoller;
+package com.bridgeLabz.RedisTemplateProject.controller;
 
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +25,8 @@ public class RedisController {
 	@RequestMapping(value="saveUser", method=RequestMethod.POST)
 	public ResponseEntity<Response> saveUser(@RequestBody User user) throws InternalServerError{
 		Response response = new Response();
-		int checkResult = redisServiceImpl.addUser(user);
-		if(checkResult==1){
+		long checkResult = redisServiceImpl.addUser(user);
+		if(checkResult>0){
 			response.setMessage("User successfully inserted.");
 			return new ResponseEntity<Response >(response,HttpStatus.ACCEPTED);
 		}
@@ -35,18 +35,18 @@ public class RedisController {
 
 	}
 
-	@RequestMapping(value="getUser/{name}", method=RequestMethod.GET)
-	public ResponseEntity<Map<String, String>> getDataTag(@PathVariable String name){
+	@RequestMapping(value="getUser/{name}/{city}", method=RequestMethod.GET)
+	public ResponseEntity<List<String>> getDataTag(@PathVariable String name, @PathVariable String city){
 
-		Map<String, String> result = redisServiceImpl.getUserData(name);
+		List<String> result = redisServiceImpl.getUserData(name, city);
 		if(result!=null){
-			return new ResponseEntity<Map<String,String>>(result, HttpStatus.ACCEPTED);
+			return new ResponseEntity<List<String>>(result, HttpStatus.ACCEPTED);
 		}
-		return new ResponseEntity<Map<String, String>>(result,HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<List<String>>(result,HttpStatus.BAD_REQUEST);
 
 	}
 	
-	@RequestMapping(value="getKey/{key}", method=RequestMethod.GET)
+	/*@RequestMapping(value="getKey/{key}", method=RequestMethod.GET)
 	public ResponseEntity<String> saveUser(@PathVariable String key){
 		String result = redisServiceImpl.getKey(key);
 		if(result!=null){
@@ -67,4 +67,15 @@ public class RedisController {
 		response.setMessage("Key is not deleted.");
 		return new ResponseEntity<Response>(response, HttpStatus.BAD_REQUEST);
 	}
+	
+	@RequestMapping(value="/pipeline/{key}", method=RequestMethod.GET)
+	public ResponseEntity<String> pipeline(@PathVariable String key){
+		System.out.println("controller : "+key);
+		String response = redisServiceImpl.pipeline(key);
+		System.out.println(response);
+		if(response!=null){
+			return new ResponseEntity<String>(response, HttpStatus.ACCEPTED);
+		}
+		return new ResponseEntity<String>(response, HttpStatus.BAD_REQUEST);
+	}*/
 }
