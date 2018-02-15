@@ -1,7 +1,4 @@
-package com.bridgeLabz.RedisTemplateProject.services;
-
-import java.util.ArrayList;
-import java.util.List;
+package com.bridgeLabz.RedisTemplateProject.redisServices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.Cursor;
@@ -12,7 +9,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import com.bridgeLabz.RedisTemplateProject.model.User;
-import com.bridgeLabz.RedisTemplateProject.myExeption.InternalServerError;
 
 @Service
 public class RedisServiceImpl implements RedisService {
@@ -29,28 +25,20 @@ public class RedisServiceImpl implements RedisService {
 	private final String EMAILSETKEY = "email";
 	private final String CITYSETKEY = "city";*/
 	
-	public long addUser(User user) throws InternalServerError {
+	public long addUser(User user) {
 
 		SetOperations<String, String> redisSet = redisTemplate.opsForSet();
 		long  response = redisSet.add(KEY+user.getCity(), "email:"+user.getEmail(), "contact:"+user.getContact(), "name:"+user.getName());
 		return response;
 	}
 
-	public List<String> getUserData(String value, String city) {
+	public Cursor<String> getUserData(String value, String city) {
 		ScanOptionsBuilder builder = ScanOptions.scanOptions();
-		List<String> list = new ArrayList<>();
-		builder.match("*:" + value + "*");
+		builder.match(value);
 		builder.count(10);
-		long cursorPosition = -1;
-		while(cursorPosition != 0){
-			SetOperations<String, String> redisSet = redisTemplate.opsForSet();
-			Cursor<String> dataMap = redisSet.scan(KEY+city, builder.build());
-			cursorPosition = dataMap.getPosition();
-			while (dataMap.hasNext()) {
-				list.add(dataMap.next());
-			}
-		}
-		return list;
+		SetOperations<String, String> redisSet = redisTemplate.opsForSet();
+		Cursor<String> cursor = redisSet.scan(KEY+city, builder.build());
+		return cursor;
 	}
 
 	/*public String getKey(String key) {

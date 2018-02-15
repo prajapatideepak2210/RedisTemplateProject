@@ -14,18 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgeLabz.RedisTemplateProject.model.Response;
 import com.bridgeLabz.RedisTemplateProject.model.User;
 import com.bridgeLabz.RedisTemplateProject.myExeption.InternalServerError;
-import com.bridgeLabz.RedisTemplateProject.services.RedisServiceImpl;
+import com.bridgeLabz.RedisTemplateProject.services.ServicesImpl;
 
 @RestController
-public class RedisController {
+public class Controller {
 
-	@Autowired
+/*	@Autowired
 	private RedisServiceImpl redisServiceImpl;
+*/	
+	@Autowired
+	private ServicesImpl serviceImpl;
 
 	@RequestMapping(value="saveUser", method=RequestMethod.POST)
 	public ResponseEntity<Response> saveUser(@RequestBody User user) throws InternalServerError{
 		Response response = new Response();
-		long checkResult = redisServiceImpl.addUser(user);
+		long checkResult = serviceImpl.addUser(user);
 		if(checkResult>0){
 			response.setMessage("User successfully inserted.");
 			return new ResponseEntity<Response >(response,HttpStatus.ACCEPTED);
@@ -38,7 +41,7 @@ public class RedisController {
 	@RequestMapping(value="getUser/{name}/{city}", method=RequestMethod.GET)
 	public ResponseEntity<List<String>> getDataTag(@PathVariable String name, @PathVariable String city){
 
-		List<String> result = redisServiceImpl.getUserData(name, city);
+		List<String> result = serviceImpl.getUserData(name, city);
 		if(result!=null){
 			return new ResponseEntity<List<String>>(result, HttpStatus.ACCEPTED);
 		}
