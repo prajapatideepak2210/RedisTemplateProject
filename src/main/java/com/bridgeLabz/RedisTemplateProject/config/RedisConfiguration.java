@@ -20,8 +20,8 @@ public class RedisConfiguration {
 	}
 
 	@Bean
-	public RedisTemplate<String, User> redisTemplate() {
-		final RedisTemplate<String, User> template = new RedisTemplate<String, User>();
+	public <K,V> RedisTemplate<K, V> redisTemplate() {
+		final RedisTemplate<K, V> template = new RedisTemplate<K, V>();
 		template.setConnectionFactory(jedisConnectionFactory());
 		return template;
 	}

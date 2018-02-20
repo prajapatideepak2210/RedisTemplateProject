@@ -1,5 +1,7 @@
 package com.bridgeLabz.RedisTemplateProject.controller;
 
+import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,36 +51,22 @@ public class Controller {
 
 	}
 	
-	/*@RequestMapping(value="getKey/{key}", method=RequestMethod.GET)
-	public ResponseEntity<String> saveUser(@PathVariable String key){
-		String result = redisServiceImpl.getKey(key);
-		if(result!=null){
-			return new ResponseEntity<String >(result,HttpStatus.ACCEPTED);
+	@RequestMapping(value="/getUserDetails/{details}/{city}", method=RequestMethod.GET)
+	public ResponseEntity<List<String>> getUserDetail(@PathVariable String details, @PathVariable String city) throws IOException{
+		
+		System.out.println("Details : "+details);
+		System.out.println("city : "+city);
+		List<CardKeyword> keywordsList = KeywordsExtractor.getKeywordsList(details);
+		Iterator<?> iterator = keywordsList.iterator();
+		while (iterator.hasNext()) {
+			CardKeyword key = (CardKeyword) iterator.next();
+			System.out.println(key.getStem());
 		}
-		return new ResponseEntity<String>(result,HttpStatus.BAD_REQUEST);
+		
+		/*String keyword = TestLibrary.stem(details);
+		System.out.println("Keywords : "+keyword);*/
+		return null;
 	}
 	
-	@RequestMapping(value="deleteKey/{key}", method=RequestMethod.DELETE)
-	public ResponseEntity<Response> deleteKey(@PathVariable String key){
-		Response response = new Response();
-		long result = redisServiceImpl.deleteKey(key);
-		System.out.println(result);
-		if(result==1){
-			response.setMessage("Key deleted.");
-			return new ResponseEntity<Response>(response,HttpStatus.ACCEPTED);
-		}
-		response.setMessage("Key is not deleted.");
-		return new ResponseEntity<Response>(response, HttpStatus.BAD_REQUEST);
-	}
 	
-	@RequestMapping(value="/pipeline/{key}", method=RequestMethod.GET)
-	public ResponseEntity<String> pipeline(@PathVariable String key){
-		System.out.println("controller : "+key);
-		String response = redisServiceImpl.pipeline(key);
-		System.out.println(response);
-		if(response!=null){
-			return new ResponseEntity<String>(response, HttpStatus.ACCEPTED);
-		}
-		return new ResponseEntity<String>(response, HttpStatus.BAD_REQUEST);
-	}*/
 }
