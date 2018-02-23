@@ -1,14 +1,15 @@
 package com.bridgeLabz.RedisTemplateProject.services;
 
-import java.util.List;
+import java.util.Set;
 
 import com.bridgeLabz.RedisTemplateProject.model.User;
+import com.textrazor.AnalysisException;
+import com.textrazor.NetworkException;
 
 public interface Services {
 	
 	public long addUser(User user);
 	
-	public List<String> getUserData(String value, String city);
-
+	public Set<String> getUserData(String value, String city) throws NetworkException, AnalysisException;
 
 }

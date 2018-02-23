@@ -4,6 +4,7 @@ public class User {
 	private String name;
 	private String contact;
 	private String email;
+	private String address;
 	private String city;
 	
 	public String getName() {
@@ -29,6 +30,12 @@ public class User {
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	
 }

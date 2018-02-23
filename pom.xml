@@ -15,7 +15,7 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.10.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
 	<properties>
@@ -29,23 +29,30 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-analyzers-common -->
-<dependency>
-    <groupId>org.apache.lucene</groupId>
-    <artifactId>lucene-analyzers-common</artifactId>
-    <version>7.1.0</version>
-</dependency>
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-analyzers-common</artifactId>
+			<version>7.1.0</version>
+		</dependency>
 
-<!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
-<dependency>
-    <groupId>org.apache.lucene</groupId>
-    <artifactId>lucene-core</artifactId>
-    <version>7.1.0</version>
-</dependency>
+		<!-- https://mvnrepository.com/artifact/com.textrazor/textrazor -->
+		<dependency>
+			<groupId>com.textrazor</groupId>
+			<artifactId>textrazor</artifactId>
+			<version>1.0.10</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.apache.lucene/lucene-core -->
+		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>7.1.0</version>
+		</dependency>
 
 
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>

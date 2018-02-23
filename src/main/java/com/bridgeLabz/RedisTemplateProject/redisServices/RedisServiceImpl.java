@@ -20,19 +20,16 @@ public class RedisServiceImpl implements RedisService {
 	@Autowired
 	private StringRedisTemplate StringredisTemplate;
 	
-	@Autowired
-	private RedisTemplate<String, String> redisTemplate;
+	/*@Autowired
+	private RedisTemplate<String, String> redisTemplate;*/
 	
 	private final String KEY = "UserData";
-	
-	/*@Autowired
-	private JedisCluster jedisCluster;*/
 	
 	@Override
 	public long addUser(User user) {
 
 		SetOperations<String, String> redisSet = StringredisTemplate.opsForSet();
-		long  response = redisSet.add(KEY+user.getCity(), "email:"+user.getEmail(), "contact:"+user.getContact(), "name:"+user.getName());
+		long  response = redisSet.add(KEY+user.getCity(), "email:"+user.getEmail(), "contact:"+user.getContact(), "name:"+user.getName(), "address:"+user.getAddress());
 		return response;
 	}
 	
@@ -51,7 +48,6 @@ public class RedisServiceImpl implements RedisService {
 				list.add(cursor.next());
 			}
 		}
-		
 		return list;
 	}
 	
