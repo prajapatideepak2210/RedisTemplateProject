@@ -19,9 +19,6 @@ import com.bridgeLabz.RedisTemplateProject.services.ServicesImpl;
 @RestController
 public class Controller {
 
-/*	@Autowired
-	private RedisServiceImpl redisServiceImpl;
-*/	
 	@Autowired
 	private ServicesImpl serviceImpl;
 
