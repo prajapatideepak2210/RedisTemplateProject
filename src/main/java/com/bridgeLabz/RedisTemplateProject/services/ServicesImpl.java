@@ -1,7 +1,6 @@
 package com.bridgeLabz.RedisTemplateProject.services;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -21,29 +20,23 @@ public class ServicesImpl implements Services {
 	
 	@Autowired
 	private RedisServiceImpl redisServiceImpl;
+	private final String KEY = "UserData";
 
 	@Override
 	public long addUser(User user) {
-		return redisServiceImpl.addUser(user);
+		return redisServiceImpl.add(KEY+user.getCity(), "email:"+user.getEmail(), "contact:"+user.getContact(), "name:"+user.getName(), "address:"+user.getAddress());
 	}
 
 	@Override
 	public Set<String> getUserData(String value, String city) throws NetworkException, AnalysisException {
 		Set<String> setForReturn = new HashSet<String>();
 		value = value.toUpperCase();
-		System.out.println("value for uper :"+ value);
 		AnalyzedText analyzedText = KeyWordExtractor.getKeyWords(value);
 		
 		for (Entity entity : analyzedText.getResponse().getEntities()) {
 			System.out.println("Matched Entity: " + entity.getEntityId().toLowerCase());
 			value  = "*:*" + entity.getEntityId().toLowerCase() + "*";
-			System.out.println("value : "+value);
-			List<String> list = redisServiceImpl.getUserData(value, city);
-			Iterator<?> iterator = list.iterator();
-			while (iterator.hasNext()) {
-				String name = (String) iterator.next();
-				System.out.println("list : "+name);
-			}
+			List<String> list = redisServiceImpl.search(KEY+city, value);
 			
 			for(String data : list){
 				System.out.println("Data :"+data );

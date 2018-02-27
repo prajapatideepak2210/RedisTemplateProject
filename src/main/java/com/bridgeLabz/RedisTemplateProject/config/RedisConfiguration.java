@@ -31,14 +31,4 @@ public class RedisConfiguration {
 		return redisTemplate;
 	}
 	
-	/*@Bean
-	public JedisCluster jedisCluster() {
-		Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
-		jedisClusterNodes.add(new HostAndPort("localhost", 10000));
-		JedisClusterConnection jedisClusterConnection = (JedisClusterConnection) jedisConnectionFactory().getClusterConnection();
-		JedisCluster jedisCluster = jedisClusterConnection.getNativeConnection();
-		JedisCluster jedisCluster = new JedisCluster(jedisClusterNodes);
-		return jedisCluster;
-	}*/
-
 }

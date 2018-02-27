@@ -22,34 +22,34 @@ import com.textrazor.NetworkException;
 @RestController
 public class Controller {
 
-/*	@Autowired
-	private RedisServiceImpl redisServiceImpl;
-*/	
 	@Autowired
 	private ServicesImpl serviceImpl;
 
 	@RequestMapping(value="saveUser", method=RequestMethod.POST)
 	public ResponseEntity<Response> saveUser(@RequestBody User user) throws InternalServerError{
 		Response response = new Response();
-		long checkResult = serviceImpl.addUser(user);
-		if(checkResult>0){
+		try {
+			serviceImpl.addUser(user);
 			response.setMessage("User successfully inserted.");
 			return new ResponseEntity<Response >(response,HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			response.setMessage("User is not inserted.");
+			return new ResponseEntity<Response >(response,HttpStatus.BAD_REQUEST);
 		}
-		response.setMessage("User is not inserted.");
-		return new ResponseEntity<Response >(response,HttpStatus.BAD_REQUEST);
-
+		
 	}
 
 	@RequestMapping(value="getUser/{city}", method=RequestMethod.GET)
 	public ResponseEntity<Set<String>> getDataTag(@RequestHeader String search, @PathVariable String city) throws NetworkException, AnalysisException{
-
-		Set<String> result = serviceImpl.getUserData(search, city);
-		if(result!=null){
+		
+		Set<String> result =null;
+		try {
+			result = serviceImpl.getUserData(search, city);
 			return new ResponseEntity<Set<String>>(result, HttpStatus.ACCEPTED);
+		} catch (Exception e) {
+			return new ResponseEntity<Set<String>>(result,HttpStatus.BAD_REQUEST);
 		}
-		return new ResponseEntity<Set<String>>(result,HttpStatus.BAD_REQUEST);
-
+		
 	}
 	
 }
